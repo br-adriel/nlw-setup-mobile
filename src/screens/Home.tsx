@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { ScrollView, Text, View } from 'react-native';
 import HabitDay, { DAY_SIZE } from '../components/HabitDay';
@@ -19,6 +20,7 @@ const amountOfDaysToFill =
   minimumSummaryDatesSize - datesFromYearStart.length + 1;
 
 const Home = () => {
+  const { navigate } = useNavigation();
   return (
     <View className='flex-1 bg-background px-8 pt-16'>
       <Header />
@@ -41,7 +43,12 @@ const Home = () => {
       >
         <View className='flex-row flex-wrap'>
           {datesFromYearStart.map((date) => {
-            return <HabitDay key={date.toISOString()} />;
+            return (
+              <HabitDay
+                key={date.toISOString()}
+                onPress={() => navigate('habit', { date: date.toISOString() })}
+              />
+            );
           })}
           {amountOfDaysToFill > 0 &&
             Array.from({ length: amountOfDaysToFill }).map((_, i) => {
